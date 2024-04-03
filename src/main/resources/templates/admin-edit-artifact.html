@@ -1,0 +1,105 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common-fragments :: head"></head>
+<body>
+<div th:insert="~{fragments/common-fragments :: scripts}"></div>
+<div th:replace="fragments/common-fragments :: navbar"></div>
+<div class="bg-light">
+    <div class="py-5">
+        <div class="container py-5 bg-white shadow-sm card-height">
+            <div class="row mx-3">
+                <th:block th:replace="fragments/account-fragments :: account-sidebar"/>
+                <div class="col-md-9 mb-5">
+                    <th:block th:replace="fragments/common-fragments :: info-title(text='Edit artifact', icon='fas fa-edit mr-2')"/>
+                    <form method="post" action="/admin/edit/artifact" enctype="multipart/form-data">
+                        <div class="row mt-5">
+                            <div class="col-md-6">
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='artifact title',
+                                    name='artifactTitle',
+                                    value=(${artifact.getArtifactTitle()}),
+                                    error=(${artifactTitleError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='Brand',
+                                    name='artifacter',
+                                    value=(${artifact.getArtifacter()}),
+                                    error=(${artifactrError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='Release year',
+                                    name='year',
+                                    value=(${artifact.getYear()}),
+                                    error=(${yearError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='Country',
+                                    name='country',
+                                    value=(${artifact.getCountry()}),
+                                    error=(${countryError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-select(
+                                    title='artifact type',
+                                    name='type',
+                                    options=(${ {'Eau de Parfum'|| 'Eau de Toilette'} }),
+                                    value=(${artifact.getType()}),
+                                    error=(${typeError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='Volume',
+                                    name='volume',
+                                    value=(${artifact.getVolume()}),
+                                    error=(${volumeError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-select(
+                                    title='Gender',
+                                    name='artifactGender',
+                                    options=(${ {'male'|| 'female'} }),
+                                    value=(${artifact.getartifactGender()}),
+                                    error=(${artifactGenderError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='Top notes',
+                                    name='productTopNotes',
+                                    value=(${artifact.getproductTopNotes()}),
+                                    error=(${productTopNotesError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='Heart notes',
+                                    name='productMiddleNotes',
+                                    value=(${artifact.getproductMiddleNotes()}),
+                                    error=(${productMiddleNotesError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='Base notes',
+                                    name='productBaseNotes',
+                                    value=(${artifact.getproductBaseNotes()}),
+                                    error=(${productBaseNotesError})
+                                )"/>
+                                <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                    title='Price',
+                                    name='price',
+                                    value=(${artifact.getPrice()}),
+                                    error=(${priceError})
+                                )"/>
+                            </div>
+                            <div class="col-md-6">
+                                <div th:if="${artifact.getFilename()}">
+                                    <img th:src="@{/img/{path} (path = ${artifact.getFilename()})}"
+                                         class="rounded mx-auto w-100 mb-2"/>
+                                </div>
+                                <input type="file" name="file"/>
+                            </div>
+                        </div>
+                        <input type="hidden" name="id" th:value="${artifact.getId()}"/>
+                        <input type="hidden" name="filename" th:value="${artifact.getFilename()}"/>
+                        <th:block th:replace="fragments/common-fragments :: icon-button(text='Edit', icon='fas fa-edit mr-2')"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{fragments/common-fragments :: footer}"></footer>
+</body>
+</html>

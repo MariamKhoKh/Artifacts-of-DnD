@@ -1,0 +1,112 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common-fragments :: head"></head>
+<body>
+<div th:insert="~{fragments/common-fragments :: scripts}"></div>
+<div th:replace="fragments/common-fragments :: navbar"></div>
+<div id="container" class="bg-light">
+    <div class="py-5">
+        <div class="container py-5 bg-white shadow-sm card-height">
+            <div class="row mx-3">
+                <th:block th:replace="fragments/account-fragments :: account-sidebar"/>
+                <div class="col-md-9 mb-5">
+                    <th:block th:replace="fragments/common-fragments :: info-title(
+                        text='Add artifact',
+                        icon='fas fa-plus-square mr-2'
+                    )"/>
+                    <br/>
+                    <form method="post" action="/admin/add/artifact" enctype="multipart/form-data">
+                        <div class="form row">
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='artifact title',
+                                name='artifactTitle',
+                                placeholder='Enter the artifact title',
+                                value=(${artifact} ? ${artifact.artifactTitle} : ''),
+                                error=(${artifactTitleError})
+                            )"/>
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='Category',
+                                name='artifactr',
+                                placeholder='Enter',
+                                value=(${artifact} ? ${artifact.artifactr} : ''),
+                                error=(${artifactrError})
+                            )"/>
+                        </div>
+                        <div class="form row mt-3">
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='Release year',
+                                name='year',
+                                placeholder='Enter the release year',
+                                value=(${artifact} ? ${artifact.year} : ''),
+                                error=(${yearError})
+                            )"/>
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='Manufacturer country',
+                                name='country',
+                                placeholder='Manufacturer country',
+                                value=(${artifact} ? ${artifact.country} : ''),
+                                error=(${countryError})
+                            )"/>
+                        </div>
+                        <div class="form row mt-3">
+                            <th:block/>
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='Volume',
+                                name='volume',
+                                placeholder='Enter the volume',
+                                value=(${artifact} ? ${artifact.volume} : ''),
+                                error=(${volumeError})
+                            )"/>
+                        </div>
+                        <div class="form row mt-3">
+                            <th:block/>
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='Top notes',
+                                name='productTopNotes',
+                                placeholder='Enter the top notes',
+                                value=(${artifact} ? ${artifact.productTopNotes} : ''),
+                                error=(${productTopNotesError})
+                            )"/>
+                        </div>
+                        <div class="form row mt-3">
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='Heart notes',
+                                name='productMiddleNotes',
+                                placeholder='Enter the heart notes',
+                                value=(${artifact} ? ${artifact.productMiddleNotes} : ''),
+                                error=(${productMiddleNotesError})
+                            )"/>
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='Base notes',
+                                name='productBaseNotes',
+                                placeholder='Enter the base notes',
+                                value=(${artifact} ? ${artifact.productBaseNotes} : ''),
+                                error=(${productBaseNotesError})
+                            )"/>
+                        </div>
+                        <div class="form row mt-3">
+                            <th:block th:replace="fragments/account-fragments :: add-artifact-input(
+                                title='Price',
+                                name='price',
+                                placeholder='Enter the price',
+                                value=(${artifact} ? ${artifact.price} : ''),
+                                error=(${priceError})
+                            )"/>
+                            <div class="col" style="margin-top: 35px">
+                                <input type="file" name="file"/>
+                            </div>
+                        </div>
+                        <th:block th:replace="fragments/common-fragments :: icon-button(
+                            text='Add',
+                            buttonClassName='mt-3',
+                            icon='fas fa-plus-square mr-2'
+                        )"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{fragments/common-fragments :: footer}"></footer>
+</body>
+</html>

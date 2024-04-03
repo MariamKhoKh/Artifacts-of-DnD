@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common-fragments :: head"></head>
+<body>
+<div th:insert="~{fragments/common-fragments :: scripts}"></div>
+<div th:replace="fragments/common-fragments :: navbar"></div>
+<div id="container" class="bg-light">
+    <div class="container d-flex bg-white shadow-sm">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Artifacts</h3>
+            </div>
+            <form action="/artifact" method="get">
+                <ul class="list-unstyled components">
+
+                    <h5>Price</h5>
+                    <li class="active mb-2">
+                        <ul class="list-unstyled">
+                            <li th:insert="fragments/artifacts-fragments :: artifacts-price-checkbox(startingPrice=0, endingPrice=200)"></li>
+                            <li th:insert="fragments/artifacts-fragments :: artifacts-price-checkbox(startingPrice=10, endingPrice=60)"></li>
+                            <li th:insert="fragments/artifacts-fragments :: artifacts-price-checkbox(startingPrice=60, endingPrice=110)"></li>
+                            <li th:insert="fragments/artifacts-fragments :: artifacts-price-checkbox(startingPrice=110, endingPrice=160)"></li>
+                            <li th:insert="fragments/artifacts-fragments :: artifacts-price-checkbox(startingPrice=160, endingPrice=210)"></li>
+                        </ul>
+                    </li>
+                </ul>
+            </form>
+        </nav>
+        <div class="container mb-5">
+            <div class="container-fluid mt-5 ml-1">
+                <form action="/artifact/search" method="get" style="justify-content: center">
+                    <th:block th:replace="~{fragments/common-fragments :: search(
+                        options=(${ {
+                            { value: 'artifacter', text: 'Brand' },
+                            { value: 'artifactTitle', text: 'artifact title' },
+                            { value: 'country', text: 'Manufacturer country' }
+                        } })
+                    )}"></th:block>
+                </form>
+            </div>
+            <div class="mt-4 ml-1">
+                <th:block th:replace="~{fragments/common-fragments :: pagination(class='mx-3')}"/>
+                <div class="container-fluid">
+                    <div class="row" th:fragment="list">
+                        <th:block th:if="${page.getContent().size() == 0}"
+                                  th:insert="~{fragments/common-fragments :: empty-result(text='artifacts not found')}"/>
+                        <th:block th:unless="${page.getContent().size() == 0}" th:each="artifact : ${page.getContent()}">
+                            <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifact})"/>
+                        </th:block>
+                    </div>
+                </div>
+                <th:block th:if="${page.getContent().size() != 0}">
+                    <th:block th:replace="~{fragments/common-fragments :: pagination(class='mx-3')}"/>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{fragments/common-fragments :: footer}"></footer>
+</body>
+</html>

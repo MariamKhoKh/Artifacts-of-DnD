@@ -1,0 +1,81 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common-fragments :: head"></head>
+<body>
+<div th:insert="~{fragments/common-fragments :: scripts}"></div>
+<div th:replace="fragments/common-fragments :: navbar"></div>
+<div id="container" class="bg-light">
+    <div class="container pt-5 pb-5 bg-white shadow-sm">
+        <div class="row">
+            <div class="col-md-5">
+                <img th:src="@{/img/{path} (path = ${artifact.getFilename()})}" class="rounded mx-auto w-100">
+            </div>
+            <div class="col-md-7">
+                <h2 th:text="${artifact.getArtifactTitle()}"></h2>
+                <h3 th:text="${artifact.getArtifacter()}"></h3>
+                <p>Product code: <span th:text="${artifact.getId()}"></span></p>
+                <p class="product-stock" style="color: #54C0A1">In Stock</p>
+                <div class="row ml-1">
+                    <h6 class="mr-5">
+                        $<span th:text="${artifact.getPrice()}"></span>.00
+                    </h6>
+                    <form action="/cart/add" method="post">
+                        <button type="submit" name="artifactId" class="btn btn-success mx-3"
+                                th:value="${artifact.getId()}">
+                            <i class="fas fa-cart-plus mr-2 fa-lg"></i>
+                            ADD TO CART
+                        </button>
+                    </form>
+                </div>
+                <br>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>artifact title:</td>
+                        <td th:text="${artifact.getArtifactTitle()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Category:</td>
+                        <td th:text="${artifact.getArtifacter()}"></td>
+                    </tr>
+                    <tr>
+                        <td>artifact type:</td>
+                        <td th:text="${artifact.getType()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Release year:</td>
+                        <td th:text="${artifact.getYear()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Volume:</td>
+                        <td><span th:text="${artifact.getVolume()}"></span> .</td>
+                    </tr>
+                    <tr>
+                        <td>Manufacturer country:</td>
+                        <td th:text="${artifact.getCountry()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Gender:</td>
+                        <td th:text="${artifact.getArtifactGender()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Top notes:</td>
+                        <td th:text="${artifact.getProductTopNotes()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Heart notes:</td>
+                        <td th:text="${artifact.getProductMiddleNotes()}"></td>
+                    </tr>
+                    <tr>
+                        <td>Base notes:</td>
+                        <td th:text="${artifact.getProductBaseNotes()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{fragments/common-fragments :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,241 @@
+Index: src/main/resources/templates/artifact.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/artifact.html b/src/main/resources/templates/artifact.html
+--- a/src/main/resources/templates/artifact.html	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/resources/templates/artifact.html	(date 1706205433672)
+@@ -11,8 +11,8 @@
+                 <img th:src="@{/img/{path} (path = ${artifact.getFilename()})}" class="rounded mx-auto w-100">
+             </div>
+             <div class="col-md-7">
+-                <h2 th:text="${artifact.getartifactTitle()}"></h2>
+-                <h3 th:text="${artifact.getartifactr()}"></h3>
++                <h2 th:text="${artifact.getArtifactTitle()}"></h2>
++                <h3 th:text="${artifact.getArtifacter()}"></h3>
+                 <p>Product code: <span th:text="${artifact.getId()}"></span></p>
+                 <p class="product-stock" style="color: #54C0A1">In Stock</p>
+                 <div class="row ml-1">
+@@ -68,7 +68,7 @@
+                     </tr>
+                     <tr>
+                         <td>Base notes:</td>
+-                        <td th:text="${artifact.getFProductBaseNotes()}"></td>
++                        <td th:text="${artifact.getProductBaseNotes()}"></td>
+                     </tr>
+                     </tbody>
+                 </table>
+Index: src/main/java/org/example/controller/CartController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/controller/CartController.java b/src/main/java/org/example/controller/CartController.java
+--- a/src/main/java/org/example/controller/CartController.java	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/java/org/example/controller/CartController.java	(date 1706210966973)
+@@ -2,6 +2,7 @@
+ 
+ import org.example.constants.Pages;
+ import org.example.constants.PathConstants;
++import org.example.domain.Artifact;
+ import org.example.service.CartService;
+ import lombok.RequiredArgsConstructor;
+ import org.springframework.stereotype.Controller;
+@@ -11,6 +12,8 @@
+ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RequestParam;
+ 
++import java.util.List;
++
+ @Controller
+ @RequiredArgsConstructor
+ @RequestMapping(PathConstants.CART)
+@@ -20,7 +23,9 @@
+ 
+     @GetMapping
+     public String getCart(Model model) {
+-        model.addAttribute("artifacts", cartService.getArtifactsInCart());
++        List<Artifact> artifactsInCart = cartService.getArtifactsInCart();
++        model.addAttribute("artifacts", artifactsInCart);
++        model.addAttribute("sum", artifactsInCart.stream().mapToInt(Artifact::getPrice).sum());
+         return Pages.CART;
+     }
+ 
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+--- a/src/main/resources/application.properties	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/resources/application.properties	(date 1706198806265)
+@@ -1,6 +1,6 @@
+ spring.datasource.url=jdbc:postgresql://localhost:5432/artifact
+ spring.datasource.username=postgres
+-spring.datasource.password=1234
++spring.datasource.password=Admin@123
+ 
+ spring.jpa.generate-ddl=false
+ spring.jpa.show-sql=true
+Index: src/main/resources/templates/fragments/artifacts-fragments.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/fragments/artifacts-fragments.html b/src/main/resources/templates/fragments/artifacts-fragments.html
+--- a/src/main/resources/templates/fragments/artifacts-fragments.html	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/resources/templates/fragments/artifacts-fragments.html	(date 1706205134247)
+@@ -3,7 +3,7 @@
+         <img th:src="@{/img/{path} (path = ${artifact.getFilename()})}" class="rounded mx-auto w-50">
+         <div class="card-body text-center">
+             <h5 th:text="${artifact.getArtifactTitle()}"></h5>
+-            <h6 th:text="${artifact.getArtifactr()}"></h6>
++            <h6 th:text="${artifact.getArtifacter()}"></h6>
+             <h6>$<span th:text="${artifact.getPrice()}"></span>.00</h6>
+         </div>
+         <div class="text-center align-items-end mb-3">
+Index: src/main/java/org/example/service/impl/ArtifactServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/org/example/service/impl/ArtifactServiceImpl.java b/src/main/java/org/example/service/impl/ArtifactServiceImpl.java
+--- a/src/main/java/org/example/service/impl/ArtifactServiceImpl.java	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/java/org/example/service/impl/ArtifactServiceImpl.java	(date 1706199827744)
+@@ -32,7 +32,7 @@
+     @Override
+     public List<Artifact> getPopularArtifacts() {
+         List<Long> artifactIds = Arrays.asList(26L, 43L, 46L, 106L, 34L, 76L, 82L, 85L, 27L, 39L, 79L, 86L);
+-        return artifactRepository.findByIdIn(artifactIds);
++        return artifactRepository.findAll();
+     }
+ 
+     @Override
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/.idea/misc.xml	(date 1706198806214)
+@@ -7,9 +7,8 @@
+         <option value="$PROJECT_DIR$/pom.xml" />
+       </list>
+     </option>
+-    <option name="workspaceImportForciblyTurnedOn" value="true" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="openjdk-19" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/out" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: src/main/resources/templates/ordering.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/ordering.html b/src/main/resources/templates/ordering.html
+--- a/src/main/resources/templates/ordering.html	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/resources/templates/ordering.html	(date 1706211122547)
+@@ -86,8 +86,8 @@
+                                         <img th:src="@{/img/{path} (path = ${artifact.getFilename()})}"
+                                              class="rounded mx-auto w-50">
+                                         <div class="card-body text-center">
+-                                            <h5 th:text="${artifact.getartifactTitle()}"></h5>
+-                                            <h6 th:text="${artifact.getartifactr()}"></h6>
++                                            <h5 th:text="${artifact.getArtifactTitle()}"></h5>
++                                            <h6 th:text="${artifact.getArtifacter()}"></h6>
+                                             <h6>$<span th:text="${artifact.getPrice()}"></span>.00</h6>
+                                         </div>
+                                     </div>
+Index: src/main/resources/templates/admin-artifact.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/admin-artifact.html b/src/main/resources/templates/admin-artifact.html
+--- a/src/main/resources/templates/admin-artifact.html	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/resources/templates/admin-artifact.html	(date 1706205134305)
+@@ -39,8 +39,8 @@
+                                              class="rounded mx-auto w-50 artifact_list_item_image">
+                                     </div>
+                                     <div class="card-body text-center">
+-                                        <h6 th:text="${artifact.getartifactTitle()}"></h6>
+-                                        <h6 th:text="${artifact.getartifactr()}"></h6>
++                                        <h6 th:text="${artifact.getArtifactTitle()}"></h6>
++                                        <h6 th:text="${artifact.getArtifacter()}"></h6>
+                                         <h6>$<span th:text="${artifact.getPrice()}"></span>.00</h6>
+                                     </div>
+                                     <div class="text-center align-items-end mb-3">
+Index: src/main/resources/templates/cart.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/cart.html b/src/main/resources/templates/cart.html
+--- a/src/main/resources/templates/cart.html	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/resources/templates/cart.html	(date 1706210966989)
+@@ -23,7 +23,7 @@
+                         <div class="col-7">
+                             <div class="card-body">
+                                 <h5 class="card-title"
+-                                    th:text="${artifact.getartifactr() + ' ' + artifact.getartifactTitle()}"></h5>
++                                    th:text="${artifact.getArtifacter() + ' ' + artifact.getArtifactTitle()}"></h5>
+                                 <p class="card-text" th:text="${artifact.getType()}"></p>
+                                 <p class="card-text"><span th:text="${artifact.getVolume()}"></span> ml.</p>
+                             </div>
+@@ -45,7 +45,7 @@
+                 <hr class="my-3"/>
+                 <div class="row">
+                     <div class="col-9">
+-                        <p class="h5 text-right">Total: $<span th:text="${#aggregates.sum(artifacts.![price])}"></span></p>
++                        <p class="h5 text-right">Total: $<span th:text="${sum}"></span></p>
+                     </div>
+                     <div class="col-3">
+                         <form action="/order" method="get" class="ml-3">
+Index: src/main/resources/templates/admin-edit-artifact.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/admin-edit-artifact.html b/src/main/resources/templates/admin-edit-artifact.html
+--- a/src/main/resources/templates/admin-edit-artifact.html	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/resources/templates/admin-edit-artifact.html	(date 1706211122572)
+@@ -17,13 +17,13 @@
+                                 <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                     title='artifact title',
+                                     name='artifactTitle',
+-                                    value=(${artifact.getartifactTitle()}),
++                                    value=(${artifact.getArtifactTitle()}),
+                                     error=(${artifactTitleError})
+                                 )"/>
+                                 <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+                                     title='Brand',
+                                     name='artifacter',
+-                                    value=(${artifact.getartifactr()}),
++                                    value=(${artifact.getArtifacter()}),
+                                     error=(${artifactrError})
+                                 )"/>
+                                 <th:block th:replace="fragments/account-fragments :: edit-artifact-input(
+Index: src/main/resources/templates/order.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/templates/order.html b/src/main/resources/templates/order.html
+--- a/src/main/resources/templates/order.html	(revision 363184305966f0fd1ad83fd282fef249bacbb7c8)
++++ b/src/main/resources/templates/order.html	(date 1706205134276)
+@@ -57,8 +57,8 @@
+                                 <th>
+                                     <a th:href="@{/artifact/{artifactId} (artifactId = ${artifact.getId()})}" th:text="${artifact.getId()}"></a>
+                                 </th>
+-                                <th th:text="${artifact.getartifactr()}"></th>
+-                                <th th:text="${artifact.getartifactTitle()}"></th>
++                                <th th:text="${artifact.getArtifacter()}"></th>
++                                <th th:text="${artifact.getArtifactTitle()}"></th>
+                                 <th th:text="'$' + ${artifact.getPrice()} + '.00'"></th>
+                             </tr>
+                             </tbody>

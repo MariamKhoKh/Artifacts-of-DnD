@@ -1,0 +1,103 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common-fragments :: head"></head>
+<body>
+<div th:insert="~{fragments/common-fragments :: scripts}"></div>
+<div th:replace="fragments/common-fragments :: navbar"></div>
+<div id="container">
+    <div id="carouselExampleControls" class="carousel slide carousel-fade" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <a th:href="@{/artifact/85}">
+                    <img class="d-block w-100" src="dungeons--dragons--303418382.png" alt="First slide">
+                </a>
+            </div>
+            <div class="carousel-item">
+                <a th:href="@{/artifact/46}">
+                    <img class="d-block w-100" src="" alt="Second slide">
+                </a>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div class="container text-center my-3 mt-5">
+        <h3>Categories</h3>
+        <div id="artifacterCarousel" class="carousel slide w-100" data-ride="carousel">
+            <th:block th:replace="fragments/common-fragments :: carousel-indicators('#artifactrCarousel')"/>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card mb-5">
+                    <a th:href="${'/artifact?genders=female'}">
+                        <img class="img-fluid" src="">
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-5">
+                    <a th:href="${'/artifact?genders=male'}">
+                        <img class="img-fluid" src="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container text-center my-3">
+        <h4>The most popular Artefacts</h4>
+    </div>
+    <div class="container mt-5">
+        <form method="get" action="/artifact/popular">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="artifactCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="container">
+                                    <div class="row" th:fragment="list">
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[0]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[1]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[2]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[3]})"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="container">
+                                    <div class="row" th:fragment="list">
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[4]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[5]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[6]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[7]})"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="container">
+                                    <div class="row" th:fragment="list">
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[8]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[9]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[10]})"/>
+                                        <th:block th:replace="fragments/artifacts-fragments :: artifact-item(${artifacts[11]})"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <th:block th:replace="fragments/common-fragments :: carousel-indicators('#artifactCarousel')"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer th:insert="~{fragments/common-fragments :: footer}"></footer>
+</body>
+</html>
